@@ -1,0 +1,13 @@
+/開発メモ.md
+/.vscode
+/app/node_modules
+/app/dist/*.zip
+/app/plugin/js
+/app/package-lock.json
+/app/scripts
+docker/nginx/ssl/
+/app/plugin/manifest.json
+/app/*.ppk
+/etc
+/install_locals
+.env
