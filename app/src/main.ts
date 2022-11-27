@@ -1,12 +1,18 @@
-import { Message, Client, GatewayIntentBits } from 'discord.js'
+import { Message, Client, GatewayIntentBits, PublicThreadChannel, SelectMenuBuilder, DMChannel, NewsChannel, PartialDMChannel, PrivateThreadChannel, TextChannel, VoiceChannel } from 'discord.js'
+import {  ActionRowBuilder, ButtonBuilder, ButtonStyle, Events } from 'discord.js'
+
 import dotenv from 'dotenv'
+
+import { KoboneBot } from './kobone'
 
 dotenv.config()
 
 const client = new Client({
-	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages]
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers]
 });
-
+console.log(`TOKEN: ${process.env.DISCORD_BOT_TOKEN}`)
+client.login(process.env.DISCORD_BOT_TOKEN)
+const kobone = new KoboneBot(client)
 
 client.once('ready', () => {
     console.log('Ready!')
@@ -15,9 +21,34 @@ client.once('ready', () => {
     }
 })
 
+
+// should definitely increase the time in your collector.
+// const collector = interaction.channel.createMessageComponentCollector({ time: 3500 });
+
+
+// client.once("ready", () => {
+//     client.on(Events.InteractionCreate, async interaction => {
+//         if (!interaction.isChatInputCommand()) return;
+
+//         if (interaction.commandName === 'button') {
+//             const row = new ActionRowBuilder<ButtonBuilder>()
+//                 .addComponents(
+//                     new ButtonBuilder()
+//                         .setCustomId('primary')
+//                         .setLabel('Click me!')
+//                         .setStyle(ButtonStyle.Primary),
+//                 );
+
+//             await interaction.reply({ content: 'I think you should,', components: [row] });
+//         }
+//     });
+//     console.log("ready");
+//     // placeComponents().catch(console.error);
+// });
+
+
 client.on('messageCreate', async (message: Message) => {
-    console.log('users --------')
-    console.log(message.mentions.users)
+    console.log(`users: ${message.mentions.users}`)
     // console.log(message.mentions)
     console.log(`author: ${message.author}`)
     console.log(`content: ${message.content}`)
@@ -27,8 +58,6 @@ client.on('messageCreate', async (message: Message) => {
         return
     }
 
-    const msg = message.content
-
     if (message.mentions.users.size > 0){
         const first = message.mentions.users.first()
         if(first){
@@ -36,23 +65,10 @@ client.on('messageCreate', async (message: Message) => {
         }
     }
 
-    if(msg.search(/小骨/g) != -1){
-        message.channel.send(`🐈 小骨ミッケタ！(${msg})`)
-    }
+    // メッセージを食べさせてみる
+    kobone.feed(message)
 
 
-    // if(message.isMemberMentioned(client.user)){
-    //     // if(message.isMemberMentioned(message.author)){
-    //         sendReply(message, `呼びましたか？🐈(${msg})`);
-    //         return;
-    //     }
-
-
-    if (message.content.startsWith('!ping')) {
-        message.channel.send('Pong!')
-    }
 })
 
-console.log(`TOKEN: ${process.env.DISCORD_BOT_TOKEN}`)
-client.login(process.env.DISCORD_BOT_TOKEN)
 
