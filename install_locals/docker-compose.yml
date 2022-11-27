@@ -1,0 +1,16 @@
+# node_modulesインストール用の環境を作る
+version: '3'
+services:
+  app:
+    image: node:17-slim
+    container_name: node_install
+    # tty: true
+    working_dir: /usr/src/app
+    volumes:
+      - ../app:/usr/src/app
+      # - /usr/src/app/node_modules # コンテナ内のnode_modulesを使用
+    build:
+      context: .
+      dockerfile: ../docker/node/Dockerfile
+    command: bash -c "npm install"
+    # command: bash -c "npm prune"
