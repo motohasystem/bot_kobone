@@ -9,5 +9,4 @@ docker/nginx/ssl/
 /app/plugin/manifest.json
 /app/*.ppk
 /etc
-/install_locals
 .env
