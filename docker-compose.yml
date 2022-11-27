@@ -25,7 +25,7 @@ services:
     tty: true
     working_dir: /usr/src/app
     volumes:
-      - ./app_02:/usr/src/app
+      - ./app:/usr/src/app
       # - ./work:/usr/src/work
       - /usr/src/app/node_modules # コンテナ内のnode_modulesを使用
     build:
